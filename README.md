@@ -1,4 +1,6 @@
-# oms-service
+# OMS Service (Order Management System)
+
+A Spring Boot–based Order Management Service built using **Clean Architecture Principles**, focusing on layered design, DTO usage, JPA persistence, exception handling, and comprehensive testing.
 This is Production Ready Spring Boot Hands-on Project
 Spring Boot Hands-On Mastery Guide (Step-by-Step)
 
@@ -20,3 +22,11 @@ We’ll build one evolving project instead of many small demos.
  - OAuth2 / JWT
  - Micrometer + Prometheus
  - Resilience4j
+
+### Key Design Principles
+ - Separation of concerns
+ - DTOs for API contracts
+ - Entities only for persistence
+ - Centralized exception handling
+ - Test isolation (unit vs slice tests)
+
