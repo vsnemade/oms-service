@@ -34,12 +34,9 @@ public class OrderController {
 
 
     @GetMapping("{id}")
-    public ResponseEntity<OrderEntity> getOrder(@PathVariable long id){
-        Optional<OrderEntity> entity = orderService.getOrderById(id);
-
-        if(entity.isEmpty())  throw new OrderNotFoundException(id);
-
-        return ResponseEntity.ok(entity.get());
+    public ResponseEntity<OrderResponseDto> getOrder(@PathVariable long id){
+        OrderResponseDto orderResponseDto = orderService.getOrderById(id);
+       return ResponseEntity.ok(orderResponseDto);
     }
 
     @GetMapping

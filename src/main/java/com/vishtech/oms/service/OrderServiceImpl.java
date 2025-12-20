@@ -1,8 +1,10 @@
 package com.vishtech.oms.service;
 
+import com.vishtech.oms.domain.OrderStatus;
 import com.vishtech.oms.dto.OrderRequestDto;
 import com.vishtech.oms.dto.OrderResponseDto;
 import com.vishtech.oms.entity.OrderEntity;
+import com.vishtech.oms.exception.OrderNotFoundException;
 import com.vishtech.oms.mapper.OrderMapper;
 import com.vishtech.oms.repository.OrderRepository;
 import jakarta.transaction.Transactional;
@@ -26,15 +28,16 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public OrderResponseDto createOrder(OrderRequestDto request) {
         OrderEntity entity= orderMapper.toOrderEntity(request);
+        entity.setStatus(OrderStatus.CREATED);
         OrderEntity saved = repository.save(entity);
         OrderResponseDto response = orderMapper.toResponseDto(saved);
         return response;
     }
 
     @Override
-    public Optional<OrderEntity> getOrderById(Long orderId) {
-        Optional<OrderEntity> entity = repository.findById(orderId);
-        return entity ;
+    public OrderResponseDto getOrderById(Long orderId) {
+        OrderEntity entity = repository.findById(orderId).orElseThrow(()->new OrderNotFoundException(orderId));
+        return orderMapper.toResponseDto(entity);
     }
 
     @Override

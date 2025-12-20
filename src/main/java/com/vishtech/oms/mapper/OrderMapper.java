@@ -11,7 +11,6 @@ import org.mapstruct.Mapping;
 public interface OrderMapper {
 
     @Mapping(source = "id", target = "orderId")
-    @Mapping(target = "status", constant = "CREATED")
     OrderResponseDto toResponseDto(OrderEntity orderEntity);
 
     OrderEntity toOrderEntity(OrderRequestDto orderRequestDto);
