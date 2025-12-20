@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @EntityListeners(AuditingEntityListener.class)
 public class OrderEntity {
 
