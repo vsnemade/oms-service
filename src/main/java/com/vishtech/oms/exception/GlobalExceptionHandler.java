@@ -4,6 +4,7 @@ import io.micrometer.tracing.Tracer;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,7 +22,7 @@ public class GlobalExceptionHandler {
 
     private final Tracer tracer;
 
-    public GlobalExceptionHandler(Tracer tracer) {
+    public GlobalExceptionHandler(@Autowired(required = false) Tracer tracer) {
         this.tracer = tracer;
     }
 
@@ -70,6 +71,9 @@ public class GlobalExceptionHandler {
     }
 
     private String getTraceId() {
+        if (tracer == null || tracer.currentSpan() == null) {
+            return null;
+        }
         if (tracer.currentSpan() != null) {
             return tracer.currentSpan().context().traceId();
         }
