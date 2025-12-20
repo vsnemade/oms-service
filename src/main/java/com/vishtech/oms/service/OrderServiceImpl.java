@@ -2,34 +2,54 @@ package com.vishtech.oms.service;
 
 import com.vishtech.oms.dto.OrderRequestDto;
 import com.vishtech.oms.dto.OrderResponseDto;
+import com.vishtech.oms.entity.OrderEntity;
+import com.vishtech.oms.mapper.OrderMapper;
+import com.vishtech.oms.repository.OrderRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
-    private final ConcurrentHashMap<Long, OrderResponseDto> store = new ConcurrentHashMap<>();
-    private final AtomicLong idGenerator = new AtomicLong();
+    private final OrderRepository repository;
+    private final OrderMapper orderMapper;
+
     @Override
     public OrderResponseDto createOrder(OrderRequestDto request) {
-        Long orderId = idGenerator.incrementAndGet();
-        OrderResponseDto response = new OrderResponseDto();
-        response.setOrderId(orderId);
-        response.setProductName(request.getProductName());
-        response.setQuantity(request.getQuantity());
-        response.setPrice(request.getPrice());
-        response.setStatus("CREATED");
-        response.setCreatedAt(LocalDateTime.now());
-        store.put(orderId, response);
+        OrderEntity entity= orderMapper.toOrderEntity(request);
+        OrderEntity saved = repository.save(entity);
+        OrderResponseDto response = orderMapper.toResponseDto(saved);
         return response;
     }
 
     @Override
-    public OrderResponseDto getOrderById(Long orderId) {
-        return store.get(orderId);
+    public Optional<OrderEntity> getOrderById(Long orderId) {
+        Optional<OrderEntity> entity = repository.findById(orderId);
+        return entity ;
     }
+
+    @Override
+    public Page<OrderResponseDto> getOrders(int page, int size, String sortBy, String direction) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size,sort);
+        return repository.findAll(pageable).map(this::toResponseDto);
+    }
+    private OrderResponseDto toResponseDto(OrderEntity order) {
+        OrderResponseDto dto = orderMapper.toResponseDto(order);
+        return dto;
+    }
+
 }

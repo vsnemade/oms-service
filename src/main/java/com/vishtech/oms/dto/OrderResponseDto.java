@@ -1,5 +1,6 @@
 package com.vishtech.oms.dto;
 
+import com.vishtech.oms.domain.OrderStatus;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -14,6 +15,6 @@ public class OrderResponseDto {
     private String productName;
     private Integer quantity;
     private BigDecimal price;
-    private String status;
+    private OrderStatus status;
     private LocalDateTime createdAt;
 }
