@@ -1,18 +1,19 @@
 
 # 🚀 Spring Boot Hands‑On Mastery – Order Management System (OMS)
 
-This repository is a **step‑by‑step hands‑on learning journey** for **beginners to intermediate developers** who want to master **Spring Boot 3.x** by building a **real‑world Order Management System (OMS)**.
+This repository is a **complete beginner‑to‑advanced hands‑on guide** for mastering **Spring Boot 3.x** by building a **real‑world Order Management System (OMS)**.
 
-You will not learn concepts in isolation.
-👉 You will **apply every concept directly in code**.
+👉 One project.  
+👉 Step‑by‑step.  
+👉 Production‑ready mindset.
 
 ---
 
-## 🧠 Who is this for?
-- Beginners in Spring Boot / Microservices
-- Java developers moving to Spring Boot 3.x
-- Developers preparing for backend interviews
-- Anyone who learns best by **hands‑on practice**
+## 🧠 Target Audience
+- Beginners learning Spring Boot
+- Java developers moving to Microservices
+- Backend interview preparation
+- Engineers who prefer **hands‑on learning**
 
 ---
 
@@ -23,7 +24,7 @@ You will not learn concepts in isolation.
 - PostgreSQL
 - Redis
 - Kafka
-- Docker
+- Docker & Docker Compose
 - Testcontainers
 - OpenAPI (Swagger)
 - OAuth2 / JWT
@@ -35,149 +36,273 @@ You will not learn concepts in isolation.
 ## 📦 Project Theme
 **Order Management System (OMS)**
 
-Features grow gradually:
-- Create Orders
-- Persist Orders
-- Validation & Exception Handling
-- Profiles & Configuration
-- Caching
-- Messaging
-- Security
-- Observability
-- Resilience
+We continuously evolve a **single project** instead of building multiple demos.
 
 ---
 
-# 📚 Learning Phases
+# 🧩 PHASE‑WISE HANDS‑ON GUIDE
 
 ---
 
 ## 🔹 PHASE 1 – Spring Boot Foundations
-### Goal: Understand Spring Boot basics
 
-### Hands‑On Steps
-1. Create Spring Boot project using Maven
-2. Understand:
-   - `@SpringBootApplication`
-   - Auto‑configuration
-   - Component scanning
-3. Create first REST controller
-4. Run and test using browser / curl
+### 🎯 Objective
+Understand Spring Boot fundamentals and application startup lifecycle.
 
 ---
 
-## 🔹 PHASE 2 – REST API, Validation & Testing
-### Goal: Build real REST APIs correctly
+### 🪜 Step‑by‑Step Instructions
 
-### Day‑wise Hands‑On
-- Create Order API (`POST /orders`)
-- DTOs & Entities
-- Bean Validation (`@NotBlank`, `@Min`, etc.)
-- Global Exception Handling
-- Unit Tests
-  - Controller tests (`@WebMvcTest`)
-  - Repository tests (`@DataJpaTest`)
-- Testcontainers with PostgreSQL
-- Handling Docker‑less environments
+### Step 1: Create Spring Boot Project
+Use **Spring Initializr** (Web or IDE):
 
-📌 Key Learning:
-- Why validation annotations are enough
-- Why we avoid re‑validation in service layer
-- How Spring test slices work
+- Project: **Maven**
+- Language: **Java**
+- Spring Boot: **3.x**
+- Java: **17**
+- Dependencies:
+  - Spring Web
+  - Validation
+
+---
+
+### Step 2: Project Structure Overview
+Understand generated structure:
+
+```
+src/main/java
+ └── com.vishtech.oms
+     └── OmsServiceApplication.java
+```
+
+Key concepts:
+- `@SpringBootApplication`
+- Auto‑configuration
+- Component scanning
+
+---
+
+### Step 3: Create First REST Controller
+Create `HealthController`:
+
+```java
+@RestController
+@RequestMapping("/health")
+public class HealthController {
+
+    @GetMapping
+    public String health() {
+        return "OMS Service is UP";
+    }
+}
+```
+
+---
+
+### Step 4: Run Application
+```bash
+mvn spring-boot:run
+```
+
+Verify:
+```
+http://localhost:8080/health
+```
+
+---
+
+### Step 5: Understand Boot Lifecycle
+Learn:
+- Embedded Tomcat
+- DispatcherServlet
+- Request → Controller → Response flow
+
+✅ **Outcome:**  
+You understand how Spring Boot applications start and serve HTTP requests.
+
+---
+
+## 🔹 PHASE 2 – REST APIs, Validation & Testing
+
+### 🎯 Objective
+Build professional REST APIs with validation and testing.
+
+---
+
+### 🪜 Step‑by‑Step Instructions
+
+### Step 1: Create Domain Model
+- `OrderEntity`
+- `OrderStatus` enum
+
+---
+
+### Step 2: Create DTOs
+- `OrderRequestDto`
+- `OrderResponseDto`
+
+Apply validation:
+```java
+@NotBlank
+@NotNull
+@Min(1)
+```
+
+---
+
+### Step 3: Build REST API
+Endpoints:
+- `POST /api/orders`
+- `GET /api/orders/{id}`
+
+---
+
+### Step 4: Service Layer
+- `OrderService`
+- `OrderServiceImpl`
+
+Responsibilities:
+- Business logic
+- No validation re‑checks
+
+---
+
+### Step 5: Global Exception Handling
+Create `GlobalExceptionHandler`:
+- Validation errors
+- Business exceptions
+
+---
+
+### Step 6: Testing
+- Controller tests → `@WebMvcTest`
+- Repository tests → `@DataJpaTest`
+- Use mocks properly
+- Avoid deprecated `@MockBean`
+
+✅ **Outcome:**  
+You can write clean, testable REST APIs.
 
 ---
 
 ## 🔹 PHASE 3 – Configuration & Profiles
-### Goal: Master real‑world configuration
 
-### Covered Topics
-- `application.yml` vs `application.properties`
-- Profiles:
-  - `dev`
-  - `test`
-  - `prod`
+### 🎯 Objective
+Master environment‑specific configuration.
+
+---
+
+### 🪜 Step‑by‑Step Instructions
+
+### Step 1: Profiles
+Create:
+- `application-dev.yml`
+- `application-test.yml`
+- `application-prod.yml`
+
+---
+
+### Step 2: Configure Databases
+- Dev → Local PostgreSQL
+- Test → Testcontainers
+- Prod → External DB
+
+---
+
+### Step 3: Activate Profiles
 - `@ActiveProfiles`
-- `@DynamicPropertySource`
-- Externalized configuration
-- Secure secrets handling
-- TimeZone issues with PostgreSQL
-- Conditional beans
-- Profile‑specific beans
-
-### Hands‑On
-- Configure DB per environment
-- Test profile using Testcontainers
-- Disable tracing & observability in tests
+- `spring.profiles.active`
 
 ---
 
-## 🔹 PHASE 4 – Database, JPA & Transactions
-### Goal: Become confident with persistence
+### Step 4: Handle TimeZone Issues
+```properties
+spring.jpa.properties.hibernate.jdbc.time_zone=Asia/Kolkata
+```
 
-### Hands‑On
-- Spring Data JPA
-- Custom queries
+---
+
+### Step 5: Disable Unwanted Features in Tests
+- Tracing
+- Observability
+
+✅ **Outcome:**  
+You understand enterprise‑grade configuration management.
+
+---
+
+## 🔹 PHASE 4 – JPA & Transactions
+
+### 🎯 Objective
+Deep dive into persistence.
+
+### Steps
 - Pagination & sorting
-- Transaction management
+- Custom queries
+- Transactions
 - Optimistic locking
-- Auditing (createdAt, updatedAt)
+- Auditing fields
 
 ---
 
-## 🔹 PHASE 5 – Caching with Redis
-### Goal: Improve performance
+## 🔹 PHASE 5 – Redis Caching
 
-### Hands‑On
+### 🎯 Objective
+Improve performance.
+
+### Steps
 - Redis integration
-- `@Cacheable`, `@CacheEvict`
-- Cache strategies
-- TTL management
+- `@Cacheable`
+- TTL strategies
 
 ---
 
-## 🔹 PHASE 6 – Messaging with Kafka
-### Goal: Event‑driven architecture
+## 🔹 PHASE 6 – Kafka Messaging
 
-### Hands‑On
-- Kafka Producer & Consumer
-- Order Created events
-- Idempotency
-- Error handling
+### 🎯 Objective
+Event‑driven architecture.
+
+### Steps
+- Kafka Producer
+- Kafka Consumer
+- Order events
+- Retry handling
 
 ---
 
-## 🔹 PHASE 7 – Security
-### Goal: Secure APIs
+## 🔹 PHASE 7 – Security (OAuth2 + JWT)
 
-### Hands‑On
-- OAuth2
-- JWT authentication
+### 🎯 Objective
+Secure APIs.
+
+### Steps
+- JWT tokens
 - Role‑based access
-- Securing endpoints
+- Secured endpoints
 
 ---
 
 ## 🔹 PHASE 8 – Observability
-### Goal: Production readiness
 
-### Hands‑On
+### 🎯 Objective
+Production readiness.
+
+### Steps
 - Micrometer metrics
-- Prometheus integration
+- Prometheus
 - Custom metrics
-- Logging best practices
-- Tracing basics
 
 ---
 
 ## 🔹 PHASE 9 – Resilience
-### Goal: Build fault‑tolerant systems
 
-### Hands‑On
-- Resilience4j
-- Circuit Breaker
+### 🎯 Objective
+Fault tolerance.
+
+### Steps
+- Circuit breaker
 - Retry
-- Rate Limiting
-- Bulkhead
+- Rate limiting
 
 ---
 
@@ -186,47 +311,23 @@ Features grow gradually:
 mvn test
 ```
 
-📌 Tests use **Testcontainers**
-- PostgreSQL runs in Docker
-- Tests auto‑skip if Docker is unavailable
+Uses **Testcontainers** (Docker required).
 
 ---
 
-## 🐳 Running with Docker
+## 🐳 Run Full Stack
 ```bash
 docker-compose up
 ```
 
 ---
 
-## 📖 How to Learn from this Repo
-1. Start from **Phase 1**
-2. Checkout commits phase‑by‑phase
-3. Read code + comments
-4. Run tests
-5. Break things and fix them 😄
+## 🏁 Final Outcome
+By completing all phases you will:
+- Build real Spring Boot apps
+- Understand microservices deeply
+- Be interview‑ready 🚀
 
 ---
 
-## ⭐ Best Practices Followed
-- Clean architecture
-- Layered design
-- Proper testing
-- Production‑ready configuration
-- Interview‑oriented explanations
-
----
-
-## 🤝 Contribution
-This repo is designed for **learning**.
-Feel free to fork and extend.
-
----
-
-## 🏁 Final Note
-If you complete all phases **hands‑on**, you will:
-- Understand Spring Boot deeply
-- Be confident in real projects
-- Crack backend interviews easily 🚀
-
-Happy Coding! 🎉
+⭐ Star this repo if it helped you!
