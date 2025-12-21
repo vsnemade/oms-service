@@ -1,5 +1,6 @@
 package com.vishtech.oms.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vishtech.oms.domain.OrderStatus;
 import lombok.*;
 
@@ -16,5 +17,7 @@ public class OrderResponseDto {
     private Integer quantity;
     private BigDecimal price;
     private OrderStatus status;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 }
