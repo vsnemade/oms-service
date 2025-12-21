@@ -1,9 +1,11 @@
 package com.vishtech.oms.service;
 
+import com.vishtech.oms.config.OmsProperties;
 import com.vishtech.oms.domain.OrderStatus;
 import com.vishtech.oms.dto.OrderRequestDto;
 import com.vishtech.oms.dto.OrderResponseDto;
 import com.vishtech.oms.entity.OrderEntity;
+import com.vishtech.oms.exception.InvalidOrderException;
 import com.vishtech.oms.exception.OrderNotFoundException;
 import com.vishtech.oms.mapper.OrderMapper;
 import com.vishtech.oms.repository.OrderRepository;
@@ -24,14 +26,22 @@ public class OrderServiceImpl implements OrderService{
 
     private final OrderRepository repository;
     private final OrderMapper orderMapper;
+    private final OmsProperties omsProperties;
 
     @Override
     public OrderResponseDto createOrder(OrderRequestDto request) {
+        validate(request);
         OrderEntity entity= orderMapper.toOrderEntity(request);
         entity.setStatus(OrderStatus.CREATED);
         OrderEntity saved = repository.save(entity);
         OrderResponseDto response = orderMapper.toResponseDto(saved);
         return response;
+    }
+
+    private void validate(OrderRequestDto request) {
+        if(request.getQuantity()>omsProperties.getOrder().getMaxQuantity()){
+            throw new InvalidOrderException("Quantity exceeds allowed limit");
+        }
     }
 
     @Override
