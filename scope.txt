@@ -1,0 +1,212 @@
+PHASE 1: Spring Boot Fundamentals (Week 1)
+Step 1: Project Bootstrap
+Goal: Understand Boot auto-configuration & conventions
+Learn:
+ - @SpringBootApplication
+ - Auto-configuration
+ - Starter dependencies
+ - Embedded Tomcat
+
+Exercise:
+ - Create /health REST API
+ - Change server port using application.yml
+ - Disable Tomcat banner
+
+Step 2: REST APIs + JSON Mapping
+Goal: Build real APIs properly
+Hands-on:
+ - @RestController
+ - @RequestMapping
+ - @PathVariable
+ - @RequestParam
+ - @RequestBody
+
+📌 Exercise
+ - POST /orders
+ - GET  /orders/{id}
+ - GET  /orders
+
+Advanced Practice:
+ - Jackson customization
+ - @JsonIgnore, @JsonFormat
+ - DTO vs Entity separation
+
+PHASE 2: Data Layer Mastery (Week 2)
+✅ Step 3: Spring Data JPA
+Hands-on:
+ - PostgreSQL (Docker)
+ - Hibernate
+ - JpaRepository
+
+Learn:
+ - Entity lifecycle
+ - Lazy vs Eager
+ - Transactions
+
+Exercise:
+ - Order, OrderItem
+ - One-to-Many mapping
+ - Pagination & Sorting
+ 
+Step 4: Transactions & Isolation
+Hands-on:
+ - @Transactional
+ - Propagation behaviors
+ 
+Exercise: 
+ - Simulate partial failure
+ - Rollback vs no rollback
+ - Nested transactions
+
+PHASE 3: Configuration & Profiles (Week 3)
+Step 5: Configuration Mastery
+Hands-on:
+ - application.yml
+ - Profiles (dev, qa, prod)
+ - @ConfigurationProperties
+
+Exercise:
+ - Externalize DB credentials
+ - Profile-based beans
+ 
+Step 6: Exception Handling
+
+Hands-on:
+ - @ControllerAdvice
+ - @ExceptionHandler
+ - Custom error response
+
+Exercise:
+ - Global error format
+ - Validation errors
+
+PHASE 4: Security (Week 4)
+✅ Step 7: Spring Security Basics
+Hands-on:
+ - SecurityFilterChain
+ - In-memory users
+ - BCrypt
+ 
+Exercise
+ - Secure /orders
+ - Role-based access
+
+Step 8: JWT + OAuth2
+Hands-on: 
+ - JWT authentication
+ - Token validation
+ - Spring Authorization Server (optional)
+ 
+Exercise:
+ - Login → Token → Secure API
+ - Refresh tokens
+
+PHASE 5: Advanced Boot Features (Week 5)
+✅ Step 9: Validation
+Hands-on: 
+ - Bean Validation
+ - Custom validators
+
+📌 Exercise:
+ - Validate order quantity, price
+ - Custom error messages
+
+✅ Step 10: Caching with Redis
+Hands-on:
+ - @EnableCaching
+ - Redis (Docker)
+
+📌 Exercise:
+ - Cache order lookups
+ - Eviction strategies
+
+✅ Step 11: Async & Scheduling
+Hands-on: 
+ - @Async
+ - @Scheduled
+
+📌 Exercise
+ - Async email notification
+ - Scheduled cleanup job
+
+🔄 PHASE 6: Messaging & Integration (Week 6)
+✅ Step 12: Kafka Integration
+Hands-on:
+ - Kafka Producer/Consumer
+ 
+📌 Exercise
+ - Publish OrderCreatedEvent
+ - Consume and update inventory
+
+✅ Step 13: Resilience Patterns
+Hands-on: 
+ - Resilience4j
+ - Circuit Breaker
+ - Retry
+ - Rate Limiter
+
+📌 Exercise:
+ - Simulate downstream failure
+ - Fallback logic
+
+🧪 PHASE 7: Testing (Week 7)
+✅ Step 14: Testing Pyramid
+Hands-on: 
+ - JUnit 5
+ - Mockito
+ - MockMvc
+ - Testcontainers
+
+📌 Exercise
+ - Controller tests
+ - Repository tests with PostgreSQL container
+ - Kafka test container
+
+📊 PHASE 8: Observability & Ops (Week 8)
+✅ Step 15: Actuator & Metrics
+Hands-on:
+ - /actuator/health
+ - /metrics
+ - Micrometer
+
+📌 Exercise:
+ - Custom metrics
+ - Prometheus integration
+
+✅ Step 16: Logging & Tracing
+Hands-on:
+ - Logback
+ - Correlation ID
+ - Distributed tracing (Zipkin)
+
+🐳 PHASE 9: Cloud & Deployment (Week 9)
+✅ Step 17: Dockerize App
+Hands-on:
+ - Multi-stage Dockerfile
+
+✅ Step 18: Kubernetes Ready
+Hands-on:
+ - Health probes
+ - ConfigMaps
+ - Secrets
+
+📌 Exercise:
+ - Deploy to AKS / Minikube
+
+🎯 PHASE 10: Production-Grade Extras (Week 10)
+✅ Step 19: API Documentation
+Hands-on:
+ - SpringDoc OpenAPI
+ - Swagger UI
+
+✅ Step 20: Versioning & Backward Compatibility
+Hands-on:
+ - URI versioning
+ - Header versioning
+
+Final Outcome:
+After this journey, you will:
+✅ Master Spring Boot internals
+✅ Be interview-ready at Architect/Director level
+✅ Build production-grade microservices
+✅ Confidently debug any Boot issue
