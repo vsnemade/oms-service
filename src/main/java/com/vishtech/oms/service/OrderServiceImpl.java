@@ -29,10 +29,15 @@ public class OrderServiceImpl implements OrderService{
     private final OmsProperties omsProperties;
 
     @Override
+    @Transactional
     public OrderResponseDto createOrder(OrderRequestDto request) {
         validate(request);
         OrderEntity entity= orderMapper.toOrderEntity(request);
         entity.setStatus(OrderStatus.CREATED);
+        // 🔒 SAFETY: Ensure bidirectional consistency
+        if (entity.getItems() != null) {
+            entity.getItems().forEach(item -> item.setOrder(entity));
+        }
         OrderEntity saved = repository.save(entity);
         OrderResponseDto response = orderMapper.toResponseDto(saved);
         return response;
